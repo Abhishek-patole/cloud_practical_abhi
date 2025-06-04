@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Firebase Auth</title>
+</head>
+<body>
+  <h2>Login or Sign Up</h2>
+
+  <input type="email" id="email" placeholder="Email"><br><br>
+  <input type="password" id="password" placeholder="Password"><br><br>
+
+  <button onclick="signup()">Sign Up</button>
+  <button onclick="login()">Log In</button>
+
+  <p id="message" style="color: red;"></p>
+
+  <script type="module">
+    // Import Firebase SDK modules
+    // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-analytics.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword }
+      from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+
+   
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyCP_ITkyMFfpNDR4lQZY3sDL7qVEid6uh4",
+    authDomain: "creation-33fca.firebaseapp.com",
+    projectId: "creation-33fca",
+    storageBucket: "creation-33fca.firebasestorage.app",
+    messagingSenderId: "942665730059",
+    appId: "1:942665730059:web:cb5dd6715c9f9e873fdf0e"
+  };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+
+    // Sign Up function
+    window.signup = function () {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          sessionStorage.setItem("userEmail", user.email);
+          sessionStorage.setItem("userUID", user.uid);
+          window.location.href = "welcome.html";
+        })
+        .catch((error) => {
+          document.getElementById("message").innerText = error.message;
+        });
+    };
+
+    // Log In function
+    window.login = function () {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          sessionStorage.setItem("userEmail", user.email);
+          sessionStorage.setItem("userUID", user.uid);
+          window.location.href = "welcome.html";
+        })
+        .catch((error) => {
+          document.getElementById("message").innerText = error.message;
+        });
+    };
+  </script>
+</body>
+</html>
